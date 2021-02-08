@@ -1,4 +1,4 @@
-##### 插件
+#### 插件
 
 右键弹框 vue-contextmenujs
 
@@ -8,11 +8,11 @@
 
 
 
-##### 树形组件
+#### 树形组件
 
 https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-tree-view?from-embed
 
-父组件
+##### 父组件
 
 ```
 <template>
@@ -79,7 +79,7 @@ export default {
 <style lang="scss" scoped></style>
 ```
 
-子组件
+##### 子组件
 
 ```
 <template>
@@ -137,7 +137,7 @@ export default {
 
 
 
-##### el-form-item循环校验
+#### el-form-item循环校验
 
 ```
 <template>
@@ -226,6 +226,6 @@ export default {
 
 
 
-##### el-dialog  el-popover  
+#### el-dialog  el-popover
 
 是否插入到body属性：append-to-body
