@@ -229,3 +229,59 @@ export default {
 #### el-dialog  el-popover
 
 是否插入到body属性：append-to-body
+
+
+
+#### scss换肤
+
+##### 皮肤文件 theme.scss
+
+```
+$background-main-color1:#E9EDF0;    //背景色
+$background-main-color2:#011E30;    //背景色
+
+$font-main-color1:#4893e6;   //主要字体颜色
+$font-main-color2:#168ABD;   //主要字体颜色
+```
+
+##### 解析文件 mixin.scss
+
+```
+@import "./theme.scss";    //引入声明的皮肤文件
+
+//初次进入调用
+@mixin background-main-color($color){ //@mixin 后面的函数名称为自定义。
+    background-color: $color;   //背景颜色默认为参数
+    [background-main-color="background-main-color2"] & {    //如果条件成立，背景色则用$background-main-color2
+        background-color: $background-main-color2;    //这个$background-main-color2已经在theme.scss中定义过了。  
+    }
+}
+
+@mixin font-main-color($color){
+    color: $color;   //字体颜色默认为参数
+    [font-main-color="font-main-color2"] & {    //2
+        color: $font-main-color2;
+    }
+}
+```
+
+##### 调用文件 xx.vue
+
+（注意如果在某个scss中调用，需要将mixin和theme文件都引入；如果在单个vue中调用，假设你全局引入了scss，则不需要在页面中引入这两个文件）
+
+```
+.all{
+  @include background-main-color($background-main-color1);
+  //background-main-color 为mixin中定义的名称，括号里为theme中声明的值。
+  解析为 background:"#E9EDF0"
+}
+```
+
+修改文件 xx.vue
+
+```
+window.document.documentElement.setAttribute("background-main-color","background-main-color2");
+//第一个"background-main-color" 指的是mixin中我们自定义声明的名称，"background-main-color2"指的是我们传的参数，
+//相当于mixin中的 $color，如果条件成立则会用下面的样式。
+```
+
