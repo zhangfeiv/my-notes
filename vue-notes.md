@@ -137,7 +137,7 @@ export default {
 
 
 
-#### el-form-item循环校验
+#### el-form-item 循环校验
 
 ```
 <template>
@@ -283,5 +283,19 @@ $font-main-color2:#168ABD;   //主要字体颜色
 window.document.documentElement.setAttribute("background-main-color","background-main-color2");
 //第一个"background-main-color" 指的是mixin中我们自定义声明的名称，"background-main-color2"指的是我们传的参数，
 //相当于mixin中的 $color，如果条件成立则会用下面的样式。
+```
+
+#### el-scrollbar 滚动条
+
+```
+.el-scrollbar {
+    height: 500px;
+    /deep/ .el-scrollbar__wrap {
+      overflow-y: scroll;
+      overflow-x: hidden;
+      width: 110%;
+      height: 100%;
+    }
+  }
 ```
 
