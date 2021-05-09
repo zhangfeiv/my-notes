@@ -285,6 +285,8 @@ window.document.documentElement.setAttribute("background-main-color","background
 //相当于mixin中的 $color，如果条件成立则会用下面的样式。
 ```
 
+
+
 #### el-scrollbar 滚动条
 
 ```
@@ -299,3 +301,20 @@ window.document.documentElement.setAttribute("background-main-color","background
   }
 ```
 
+
+
+#### 查看webpack配置
+
+vue inspect -v 查看所有配置
+
+vue inspect --mode <mode>（如vue inspect --mode development）查看指定环境的配置
+
+vue inspect --rules 查看所有已配置规则名称列表
+
+vue inspect --rule <ruleName>（如 vue inspect --rule svg） 查看指定配置规则
+
+vue inspect --plugins 查看所有已配置插件名称列表
+
+vue inspect --plugin <pluginName>（如vue inspect --plugin html）查看指定插件配置
+
+vue inspect -h 帮助信息
