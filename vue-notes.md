@@ -318,3 +318,15 @@ vue inspect --plugins 查看所有已配置插件名称列表
 vue inspect --plugin <pluginName>（如vue inspect --plugin html）查看指定插件配置
 
 vue inspect -h 帮助信息
+
+#### .env.development
+
+msg=hi
+
+VUE_APP_MSG = 'hello' 只能在客户端使用
+
+用法
+
+console.log(process.env.msg)
+
+console.log(process.env.VUE_APP_MSG)
