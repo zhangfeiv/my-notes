@@ -319,14 +319,43 @@ vue inspect --plugin <pluginName>（如vue inspect --plugin html）查看指定�
 
 vue inspect -h 帮助信息
 
-#### .env.development
+#### .env.development 开发环境
 
 msg=hi
 
 VUE_APP_MSG = 'hello' 只能在客户端使用
 
-用法
+##### 用法
 
 console.log(process.env.msg)
 
 console.log(process.env.VUE_APP_MSG)
+
+#### 阻止页面返回
+
+1.使用Vue中插件vue-prevent-browser-back（阻止单个页面）
+
+```
+<template>
+<div>
+　　无法后退
+</div>
+</template>
+
+<script>
+import preventBack from 'vue-prevent-browser-back'
+export default {
+	mixins: [preventBack]
+}
+</script>
+```
+
+2.使用js原生阻止页面返回（可能对其他页面有影响）
+
+```
+history.pushState(null, null, document.URL);
+window.addEventListener('popstate', function () {
+  history.pushState(null, null, document.URL)
+})
+```
+
