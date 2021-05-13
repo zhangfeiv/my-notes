@@ -1,4 +1,4 @@
-#### canvas
+#### canvas 绘制圆角矩形
 
 ```jsx
 /**
@@ -37,5 +37,43 @@ darwRoundRect(x, y, w, h, r, ctx) {
 
   ctx.setFillStyle('white')
   ctx.fill()
-},、
+}
 ```
+
+#### 防抖和节流
+
+- ##### 防抖
+
+```
+
+function debounce(fn, delay) {
+	let timer = null
+	return function () {
+		if (timer) {
+			clearTimeout(timer)
+		}
+		timer = setTimeout(() => {
+			fn.apply(this, arguments)
+		}, delay)
+	}
+}
+```
+
+- ##### 节流
+
+```
+function throttle(fn, delay) {
+	let flag = true
+	return function () {
+		if (flag) {
+			fn.apply(this, arguments)
+			flag = false
+			setTimeout(() => {
+				flag = true
+			}, delay)
+		}
+	}
+}
+```
+
+#### Day.js格式化时间
