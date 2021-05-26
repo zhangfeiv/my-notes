@@ -4,6 +4,8 @@
 
 百度富文本 vue-ueditor-wrap
 
+轻量级富文本 vue-quill-editor
+
 流程图 g6
 
 
@@ -357,5 +359,59 @@ history.pushState(null, null, document.URL);
 window.addEventListener('popstate', function () {
   history.pushState(null, null, document.URL)
 })
+```
+
+#### 换肤—动态修改scss变量
+
+皮肤文件 theme.scss
+
+```
+$background-main-color1:#E9EDF0;
+$background-main-color2:#011E30;
+```
+
+解析文件 mixin.scss
+
+```
+@import "./theme.scss";    //引入声明的皮肤文件
+  
+//初次进入调用
+@mixin background-main-color($color){ //@mixin 后面的函数名称为自定义。
+    background-color: $color;   //背景色默认为参数
+    [background-main-color="background-main-color2"] & {    //如果条件成立，背景色则用$background-main-color2
+        background-color: $background-main-color2;    //这个$background-main-color2已经在theme.scss中定义过了。  
+    }
+}
+```
+
+页面中调用 home.vue （全局或页面引入mixin.scss）
+
+```
+<template>
+  <div class="container">
+    <button @click="changeTheme">changeTheme</button>
+  </div>
+</template>
+
+<script>
+	export default {
+		methods: {
+			changeTheme() {
+				//第一个"background-main-color" 指的是mixin中我们自定义声明的名称，"background-main-color2"指的是我们传的参数，
+        //相当于mixin中的 $color，如果条件成立则会用下面的样式。
+				window.document.documentElement.setAttribute("background-main-color","background-main-color2");
+			}
+		}
+	}
+</script>
+
+
+<style>
+@import '@/assets/style/mixin.scss';
+.container{
+	//background-main-color 为mixin中定义的名称，括号里为theme中声明的值。解析为 background:"#E9EDF0"
+  @include background-main-color($background-main-color1);
+}
+</style>
 ```
 

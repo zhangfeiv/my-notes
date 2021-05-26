@@ -77,3 +77,9 @@ function throttle(fn, delay) {
 ```
 
 #### Day.js格式化时间
+
+```
+// 基础用法 
+dayjs(date).format('YYYY-MM-DD HH:mm:ss')
+```
+
