@@ -415,3 +415,92 @@ $background-main-color2:#011E30;
 </style>
 ```
 
+#### vue列表实现拖拽
+
+```
+// npm install vuedraggable --save
+// v-model="list" 如果发生了拖拽，list的数据并不会跟着变化
+// :list="list" 如果发生了拖拽，list的数据会跟着变化
+
+// 基础用法
+<template>
+  <div>
+    <draggable :list="list">
+      <div style="cursor: pointer" v-for="item in list" :key="item.id" :title="item.title" :name="item.id">
+         {{item.title}}
+      </div>
+  </draggable>
+  </div>
+</template>
+
+<script>
+import draggable from "vuedraggable";
+export default {
+  components: { draggable },
+  data() {
+      return {
+         list: [
+          {
+           title: "aaa",
+           id: 1,
+          },
+         {
+           title: "bbb",
+           id: 2,
+        }
+     ],
+    };
+  },
+};
+</script>
+
+// tag 和 componentData
+<template>
+  <div style="margin: 20px;">
+    <draggable tag="el-collapse" :list="list" :component-data="collapseComponentData" >
+      <el-collapse-item v-for="item in list" :key="item.id" :title="item.title" :name="item.id" >
+        <draggable :list="item.text">
+          <div style="cursor: pointer" v-for="(lign, idx) in item.text" :key="idx">{{ lign }}</div>
+        </draggable>
+      </el-collapse-item>
+    </draggable>
+  </div>
+</template>
+
+<script>
+import draggable from 'vuedraggable';
+export default {
+  components: { draggable },
+  data() {
+      return {
+         list: [
+          {
+           title: "一级",
+           id: 1,
+           text: [  "测试001",  "测试002" ]
+          },
+         {
+           title: "二级",
+           id: 2,
+           text: [  "测试003",  "测试004"  ]
+        }
+     ],
+     activeNames: [1],
+     collapseComponentData: {
+        on: {
+         change: this.inputChanged
+        },
+        props: {
+         value: this.activeNames
+        }
+     }
+    };
+  },
+  methods: {
+    inputChanged(val) {
+       this.activeNames = val;
+     }
+  }
+};
+</script>
+```
