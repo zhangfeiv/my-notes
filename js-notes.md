@@ -109,6 +109,7 @@ const reg = /^[1][3-9][0-9]{9}$/
 
 ```
 // vuex中引入modules文件夹下的所有模块
+// index.js
 const files = require.context("./modules", false, /\.js$/);
 const modules = {};
 
@@ -117,12 +118,71 @@ files.keys().forEach(key => {
   modules[key.replace(/(\.\/|\.js)/g, "")] = files(key).default;
 });
 
-console.log('modules', JSON.stringify(modules))
-
 export default {
   namespaced: true,
   modules
 };
+
+// modules/home.js
+export default {
+	namespaced: true,
+	state: {},
+	mutations: {},
+	actions: {}
+}
+```
+
+#### iframe通信
+
+同域情况下可直接相互修改样式、调用方法
+
+不同域情况下可通过 postMessage 通信
+
+```
+// fatherPage.html
+<body>
+  <iframe id="ifr1" name="ifr1" src="/sonPage.html" width="600px" height="300px"></iframe>
+  <script>
+    var iframe = document.getElementById("ifr1");
+    var iwindow = iframe.contentWindow // 获得子页面的window对象，等同于window.frames['ifr1'].window
+
+    iframe.onload = function() {
+      iwindow.sonFn() // 调用子页面的方法
+      iwindow.document.body.style.backgroundColor = 'green' // 修改子页面的样式
+      iframe.contentWindow.postMessage('MessageFromFather', '*'); //向子页面发送消息，可跨域通信
+    }
+
+    //监听来自子页面的消息，可跨域通信
+    window.addEventListener("message", function () {
+      console.log('receiveMessageFromSon', event)
+    });
+
+    function fatherFn() {
+      console.log('fatherFn')
+    }
+  </script>
+</body>
+// sonPage.html
+<body>
+  <div class="son-box">son</div>
+  <script>
+    console.log(window.parent) // 获得父页面的window对象
+    window.parent.fatherFn() // 调用父页面的方法
+    window.parent.document.body.style.backgroundColor = 'pink' // 修改父页面的样式
+
+    //监听来自父页面的消息，可跨域通信
+    window.addEventListener("message", function() {
+      console.log('receiveMessageFromFather', event)
+    });
+
+    //向父页面发送消息,可跨域通信
+    window.parent.postMessage({ msg: 'MessageFromSon' }, '*');
+
+    function sonFn() {
+      console.log('sonFn')
+    }
+  </script>
+</body>
 
 ```
 

@@ -504,3 +504,140 @@ export default {
 };
 </script>
 ```
+
+#### transition基础用法
+
+##### 单个元素的过渡
+
+```
+<div id="demo">
+  <button v-on:click="show = !show">Toggle</button>
+  <transition name="fade">
+    <p v-if="show">hello</p>
+  </transition>
+</div>
+
+new Vue({
+  el: '#demo',
+  data: {
+    show: true
+  }
+})
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
+```
+
+##### 多个元素的过渡
+
+```
+<div id="demo">
+  <button @click="show = !show">Toggle</button>
+  <transition tag="ul" name="fade" mode="out-in">
+      <div v-if="show" key="con">content</div>
+      <div v-else key="emp">empty</div>
+  </transition>
+</div>
+
+new Vue({
+  el: '#demo',
+  data() {
+    return {
+      show: true
+    }
+  }
+})
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.5s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
+```
+
+##### 多个组件的过渡
+
+```
+<div id="demo">
+  <label><input type="radio" v-model="compTag" value="compA" />组件A</label>
+  <label><input type="radio" v-model="compTag" value="compB" />组件B</label>
+  <transition name="fade" mode="out-in">
+    <component :is="compTag"></component>
+  </transition>
+</div>
+
+new Vue({
+  el: '#demo',
+  data() {
+    return {
+      compTag: 'compA'
+    }
+  },
+  components: {
+    compA: {
+      template: `<div>aaaaaaaaaa</div>`
+    },
+    compB: {
+      template: `<div>bbbbbbbbbb</div>`
+    }
+  }
+})
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
+```
+
+##### 列表过渡
+
+```
+<div id="list-demo" class="demo">
+  <button v-on:click="add">Add</button>
+  <button v-on:click="remove">Remove</button>
+  <transition-group name="list" tag="p">
+    <span v-for="item in items" v-bind:key="item" class="list-item">
+      {{ item }}
+    </span>
+  </transition-group>
+</div>
+
+new Vue({
+  el: '#list-demo',
+  data: {
+    items: [1,2,3,4,5,6,7,8,9],
+    nextNum: 10
+  },
+  methods: {
+    randomIndex: function () {
+      return Math.floor(Math.random() * this.items.length)
+    },
+    add: function () {
+      this.items.splice(this.randomIndex(), 0, this.nextNum++)
+    },
+    remove: function () {
+      this.items.splice(this.randomIndex(), 1)
+    },
+  }
+})
+
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+```
+
+
+
